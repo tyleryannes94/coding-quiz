@@ -1,4 +1,4 @@
-# coding-quiz
+# Coding Quiz Assignment
 This is a repo for my bootcamp's 4th weekly challenge.
 
 ## User Story
