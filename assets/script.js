@@ -9,4 +9,45 @@
 // - Add "scoreboard" as a button with a link in the navbar
 // Suggestions: use "let" and "const" instead of "var"
 
+const questions = [
+    {
+        question: "Question #1",
+        answers: [
+            {text: Answer 1, correct: true},
+            {text: Answer 2, correct: false},
+            {text: Answer 3, correct: false},
+            {text: Answer 4, correct: false},
 
+        ]
+    },
+    {
+        question: "Question #2",
+        answers: [
+            {text: Answer 1, correct: false},
+            {text: Answer 2, correct: true},
+            {text: Answer 3, correct: false},
+            {text: Answer 4, correct: false},
+
+        ]  
+    },
+    {
+        question: "Question #3",
+        answers: [
+            {text: Answer 1, correct: false},
+            {text: Answer 2, correct: false},
+            {text: Answer 3, correct: true},
+            {text: Answer 4, correct: false},
+
+        ]  
+    },
+    {
+        question: "Question #4",
+        answers: [
+            {text: Answer 1, correct: false},
+            {text: Answer 2, correct: false},
+            {text: Answer 3, correct: false},
+            {text: Answer 4, correct: true},
+
+        ]  
+    }
+]
