@@ -62,7 +62,7 @@ display: none;
     display: none;
 } */
 
-#next-btn, #start-btn {
+#next-btn, #start-btn, #submit-score {
     font-size: 3rem;
 }
 

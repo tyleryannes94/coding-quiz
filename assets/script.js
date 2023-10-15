@@ -59,18 +59,23 @@ const startButton = document.getElementById ("start-btn");
 startButton.addEventListener('click',startQuiz);
 const answerSection = document.querySelector(".answer-section");
 const paragraphEl = document.querySelector("main section p");
+const submitQuizResults = document.getElementById ("submit-score");
 
 nextButton.addEventListener('click', nextButtonAction);
 
 
 let currentQuestionIndex = 0;
 let score = 0;
+let restartButton;
+let scoreboardButton;
 
 window.onload = hideBeforeStart();
 function hideBeforeStart() {
         nextButton.style.display = "none";
         answerButtons.style.display = "none";
         answerButtons.classList.add ("hide");
+        submitQuizResults.style.display = "none";
+
     }
 
 function startQuiz (){
@@ -82,10 +87,23 @@ function startQuiz (){
 
     answerButtons.style.display = "block";
     answerSection.style.display = "block";
-
+    answerSection.innerText = "";
     answerButtons.addEventListener("click", function() {
         nextButton.classList.add("display");
     });
+
+    const formEl = document.querySelector('form');
+    if(formEl) {
+        formEl.remove();
+    }
+    if(restartButton) {
+        restartButton.style.display = "none";
+    }
+
+    if(scoreboardButton) {
+        scoreboardButton.style.display = "none";
+    }
+
 }
 
 function showQuestion (){
@@ -100,14 +118,8 @@ function showQuestion (){
         if (answer.correct){
             button.dataset.correct = answer.correct;
         }
-    
-        // button.addEventListener("click", function(selectAnswer) {
-        //     selectAnswer(selectAnswer);
-        //     nextButton.style.display = "block";
-        // });
         button.addEventListener("click", answerChosen);
         answerButtons.appendChild(button);
-
     });
 }
 
@@ -148,12 +160,44 @@ function selectAnswer (chosenAnswer){
 function showScore () {
     resetState();
     questionEl.innerHTML = `You scored ${score} out of ${questions.length}.`;
-    startButton.innerText = "Restart Quiz";
-    startButton.classList.remove("hide");
     answerSection.style.display = "none";
-    paragraphEl.innerHTML = "All done, thanks for playing! Add your initial and your score to be added to the playerboard!";
+    paragraphEl.innerHTML = "All done, thanks for playing! Add your initials and your score to be added to the playerboard!";
 
+    // Create and show the form here
+    const form = document.createElement('form');
 
+    const inputField = document.createElement('input');
+    inputField.type = 'text';
+    inputField.id = 'score-input';
+    inputField.placeholder = 'Eg: TY - 3';
+
+    const submitBtn = document.createElement('input');
+    submitBtn.type = 'submit';
+    submitBtn.value = 'Submit';
+
+    form.appendChild(inputField);
+    form.appendChild(submitBtn);
+
+    const parentElement = submitQuizResults.parentNode;
+    parentElement.insertBefore(form, submitQuizResults);
+
+    form.addEventListener('submit', saveScore);
+
+    if (!restartButton) {
+        restartButton = document.createElement('button');
+        restartButton.textContent = 'Restart Quiz';
+        restartButton.addEventListener('click', startQuiz);
+        parentElement.appendChild(restartButton);
+    }
+    restartButton.style.display = "block"; 
+
+    if (!scoreboardButton) {
+        scoreboardButton = document.createElement('button');
+        scoreboardButton.textContent = 'See Scoreboard';
+        scoreboardButton.addEventListener('click', displayScoreboard);
+        parentElement.appendChild(scoreboardButton);
+    }
+    scoreboardButton.style.display = "block";
 }
 
 function nextButtonAction () {
@@ -164,5 +208,50 @@ function nextButtonAction () {
         showScore ();
     }
 }
+
+submitQuizResults.addEventListener("click", submitScore);
+
+function recordScore(event) {
+    event.preventDefault ();
+    const form = document.createElement('form');
+    
+    const inputValue = document.getElementById('score-input').value;
+    if (inputValue) {
+        localStorage.setItem('score', inputValue);
+        alert('Score saved!');
+    } else {
+        alert('Please enter your initials and score!');
+    }
+}
+
+function saveScore (event){
+       event.preventDefault();
+       const inputValue = document.getElementById('score-input').value;
+       if (inputValue) {
+           let scores = JSON.parse(localStorage.getItem('scores')) || [];
+           scores.push(inputValue);
+           localStorage.setItem('scores', JSON.stringify(scores));
+           alert('Score saved!');
+       } else {
+           alert('Please enter your initials and score!');
+       }
+}
+    
+function displayScoreboard() {
+    resetState();
+    const scores = JSON.parse(localStorage.getItem('scores')) || [];
+    questionEl.innerHTML = 'Scoreboard';
+
+    const scoreList = document.createElement('ul');
+    scores.forEach(score => {
+        let li = document.createElement('li');
+        li.textContent = score;
+        scoreList.appendChild(li);
+    });
+
+    paragraphEl.innerHTML = ""; // Clear any previous content
+    paragraphEl.appendChild(scoreList);
+}
+
 
 hideBeforeStart();
