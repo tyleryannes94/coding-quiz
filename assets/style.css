@@ -22,6 +22,18 @@ main{
     margin-right: 20%;
 }
 
+.hide {
+    display: none;
+}
+
+.display {
+    display: inline;
+}
+
+/* .answer-section{
+    display: none;
+} */
+
 main h1 {
     font-size: 30px;
 }
@@ -30,10 +42,34 @@ main section {
     font-size: 16px;
 }
 
+/* #answer-buttons {
+    visibility: hidden;
+} */
+
 button {
     background: linear-gradient(to right, #eecda3, #ef629f);
     box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
     display: flex;
     margin-top: 5px;
     font-size: 18px;
+}
+/* 
+#hide-answer-buttons {
+display: none;
+}
+
+#hide-next-btn {
+    display: none;
+} */
+
+#next-btn, #start-btn {
+    font-size: 3rem;
+}
+
+.correct-selection {
+background: green;
+}
+
+.wrong-selection {
+background: red;
 }

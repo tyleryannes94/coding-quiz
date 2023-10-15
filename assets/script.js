@@ -11,43 +11,139 @@
 
 const questions = [
     {
-        question: "Question #1",
+        question: "What does Javascript do?",
         answers: [
-            {text: Answer 1, correct: true},
-            {text: Answer 2, correct: false},
-            {text: Answer 3, correct: false},
-            {text: Answer 4, correct: false},
+            {text: "A: Allows users to interact with your app", correct: false},
+            {text: "B: Edit html elements", correct: false},
+            {text: "C: Edit CSS styling elements", correct: false},
+            {text: "D: All of the above", correct: true},
 
         ]
     },
     {
-        question: "Question #2",
+        question: "What does API stand for?",
         answers: [
-            {text: Answer 1, correct: false},
-            {text: Answer 2, correct: true},
-            {text: Answer 3, correct: false},
-            {text: Answer 4, correct: false},
+            {text: "Application programming interlace", correct: false},
+            {text: "Application programming interface", correct: true},
+            {text: "Artifact programmer interface", correct: false},
+            {text: "Artifical progamming intelligence", correct: false},
 
         ]  
     },
     {
-        question: "Question #3",
+        question: "What is the value of a Javascript library such as Jquery?",
         answers: [
-            {text: Answer 1, correct: false},
-            {text: Answer 2, correct: false},
-            {text: Answer 3, correct: true},
-            {text: Answer 4, correct: false},
+            {text: "There is no value", correct: false},
+            {text: "Libraries shouldn't be used because that's cheating!", correct: false},
+            {text: "Helps to provide templated code for easy app building", correct: true},
+            {text: "None of the above", correct: false},
 
         ]  
     },
     {
-        question: "Question #4",
+        question: "What is full stack development?",
         answers: [
-            {text: Answer 1, correct: false},
-            {text: Answer 2, correct: false},
-            {text: Answer 3, correct: false},
-            {text: Answer 4, correct: true},
+            {text: "Combining two half-stacks", correct: false},
+            {text: "Another term for a graphic designer", correct: false},
+            {text: "None of these answers are correct", correct: false},
+            {text: "Developing using front-end and back-end tools to power an app.", correct: true},
 
         ]  
     }
 ]
+
+const questionEl = document.getElementById ("question");
+const answerButtons = document.getElementById ("answer-buttons");
+const nextButton = document.getElementById("next-btn");
+const startButton = document.getElementById ("start-btn");
+startButton.addEventListener('click',startQuiz);
+const answerSection = document.querySelector(".answer-section");
+
+
+let currentQuestionIndex = 0;
+let score = 0;
+
+window.onload = hideBeforeStart();
+function hideBeforeStart() {
+        nextButton.style.display = "none";
+        answerButtons.style.display = "none";
+        answerButtons.classList.add ("hide");
+    }
+
+function startQuiz (){
+    currentQuestionIndex = 0;
+    score = 0;
+    // nextButton.innerHTML = "Next";
+    showQuestion ();
+    console.log ("started quiz");
+    startButton.classList.add("hide");
+
+    answerButtons.style.display = "block";
+    answerSection.style.display = "block";
+
+    answerButtons.addEventListener("click", function() {
+        nextButton.classList.add("display");
+    });
+}
+
+function showQuestion (){
+    resetState();
+    let currentQuestion = questions [currentQuestionIndex];
+    let questionNum = currentQuestionIndex + 1;
+    questionEl.innerHTML = questionNum + ". " + currentQuestion.question;
+    currentQuestion.answers.forEach(function(answer) {
+        const button = document.createElement("button");
+        button.innerHTML = answer.text;
+        button.classList.add("btn");
+        if (answer.correct){
+            button.dataset.correct = answer.correct;
+        }
+    
+        // button.addEventListener("click", function(selectAnswer) {
+        //     selectAnswer(selectAnswer);
+        //     nextButton.style.display = "block";
+        // });
+        button.addEventListener("click", answerChosen);
+        answerButtons.appendChild(button);
+
+    });
+}
+
+function answerChosen (event) {
+selectAnswer(event);
+nextButton.style.display = "block";
+document.querySelector (selectAnswer)
+
+}
+
+function resetState(){
+nextButton.style.display = "none";
+while (answerButtons.firstChild){
+    answerButtons.removeChild(answerButtons.firstChild);
+}};
+
+function setNextQuestion (){
+
+}
+
+function selectAnswer (chosenAnswer){
+    const selectBtn = chosenAnswer.target;
+    const correctAnswer = selectBtn.dataset.correct === "true";
+    if (correctAnswer){
+        selectBtn.classList.add ("correct-selection");
+        answerSection.innerText = "Answer: Correct!";
+    } else {
+        selectBtn.classList.add ("wrong-selection");
+        answerSection.innerText = "Answer: Wrong :/";
+
+    }
+    Array.from (answerButtons.children).forEach(function(button){
+        if (button.dataset.correct === "true"){
+            button.classList.add ("correct-selection")
+        }
+        button.disabled = true;
+    })
+    nextButton.style.display = "block";
+};
+
+hideBeforeStart();
