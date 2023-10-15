@@ -58,6 +58,9 @@ const nextButton = document.getElementById("next-btn");
 const startButton = document.getElementById ("start-btn");
 startButton.addEventListener('click',startQuiz);
 const answerSection = document.querySelector(".answer-section");
+const paragraphEl = document.querySelector("main section p");
+
+nextButton.addEventListener('click', nextButtonAction);
 
 
 let currentQuestionIndex = 0;
@@ -73,7 +76,6 @@ function hideBeforeStart() {
 function startQuiz (){
     currentQuestionIndex = 0;
     score = 0;
-    // nextButton.innerHTML = "Next";
     showQuestion ();
     console.log ("started quiz");
     startButton.classList.add("hide");
@@ -110,21 +112,17 @@ function showQuestion (){
 }
 
 function answerChosen (event) {
-selectAnswer(event);
-nextButton.style.display = "block";
-document.querySelector (selectAnswer)
-
-}
+    selectAnswer(event);
+    nextButton.style.display = "block";
+    document.querySelector (selectAnswer);
+    }
 
 function resetState(){
-nextButton.style.display = "none";
-while (answerButtons.firstChild){
-    answerButtons.removeChild(answerButtons.firstChild);
-}};
+    nextButton.style.display = "none";
+    while (answerButtons.firstChild){
+        answerButtons.removeChild(answerButtons.firstChild);
+    }};
 
-function setNextQuestion (){
-
-}
 
 function selectAnswer (chosenAnswer){
     const selectBtn = chosenAnswer.target;
@@ -132,6 +130,7 @@ function selectAnswer (chosenAnswer){
     if (correctAnswer){
         selectBtn.classList.add ("correct-selection");
         answerSection.innerText = "Answer: Correct!";
+        score++;
     } else {
         selectBtn.classList.add ("wrong-selection");
         answerSection.innerText = "Answer: Wrong :/";
@@ -145,5 +144,25 @@ function selectAnswer (chosenAnswer){
     })
     nextButton.style.display = "block";
 };
+
+function showScore () {
+    resetState();
+    questionEl.innerHTML = `You scored ${score} out of ${questions.length}.`;
+    startButton.innerText = "Restart Quiz";
+    startButton.classList.remove("hide");
+    answerSection.style.display = "none";
+    paragraphEl.innerHTML = "All done, thanks for playing! Add your initial and your score to be added to the playerboard!";
+
+
+}
+
+function nextButtonAction () {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length){
+        showQuestion();
+    } else {
+        showScore ();
+    }
+}
 
 hideBeforeStart();
