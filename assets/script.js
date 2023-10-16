@@ -68,6 +68,8 @@ let currentQuestionIndex = 0;
 let score = 0;
 let restartButton;
 let scoreboardButton;
+let timerInterval;
+let remainingTime = 45;
 
 window.onload = hideBeforeStart();
 function hideBeforeStart() {
@@ -77,6 +79,29 @@ function hideBeforeStart() {
         submitQuizResults.style.display = "none";
 
     }
+
+function startCountdownTimer() {
+    if (timerInterval) {
+        clearInterval(timerInterval);
+    }
+    
+    updateTimerDisplay();  
+    timerInterval = setInterval(function() {
+        remainingTime -= 1; 
+        updateTimerDisplay();
+        
+        if (remainingTime <= 0) {
+            clearInterval(timerInterval);  
+            showScore();  
+            timerElement.textContent = "Quiz ended!";
+        }
+    }, 1000); 
+}
+
+function updateTimerDisplay() {
+    const timerElement = document.getElementById('timer');
+    timerElement.textContent = remainingTime + " seconds left";
+}
 
 function startQuiz (){
     currentQuestionIndex = 0;
@@ -91,21 +116,7 @@ function startQuiz (){
     answerButtons.addEventListener("click", function() {
         nextButton.classList.add("display");
     });
-
-    // const formEl = document.querySelector('form');
-    // if(formEl) {
-    //     formEl.remove();
-    // }
-    // if(restartButton) {
-    //     restartButton.style.display = "none";
-    // }
-
-    // if(scoreboardButton) {
-    //     scoreboardButton.style.display = "none";
-    // }
-    // if (paragraphEl){
-    //     paragraphEl.innerHTML ="";
-    // }
+    startCountdownTimer();
 }
 
 function restartQuiz (){
@@ -135,6 +146,10 @@ function restartQuiz (){
     if (paragraphEl){
         paragraphEl.innerHTML = "";
     }
+    remainingTime = 45;
+
+    startCountdownTimer();
+
 }
 
 function showQuestion (){
@@ -169,7 +184,6 @@ function resetState(){
     answerSection.innerHTML = "";
     }};
 
-
 function selectAnswer (chosenAnswer){
     const selectBtn = chosenAnswer.target;
     const correctAnswer = selectBtn.dataset.correct === "true";
@@ -180,6 +194,8 @@ function selectAnswer (chosenAnswer){
     } else {
         selectBtn.classList.add ("wrong-selection");
         answerSection.innerText = "Answer: Wrong :/";
+        remainingTime -= 10;
+        updateTimerDisplay();
 
     }
     Array.from (answerButtons.children).forEach(function(button){
@@ -197,27 +213,20 @@ function showScore () {
     answerSection.style.display = "none";
     nextButton.style.display = "none";
     paragraphEl.innerHTML = "All done, thanks for playing! Add your initials and your score to be added to the playerboard!";
-
-    // Create and show the form here
+    clearInterval(timerInterval); 
     const form = document.createElement('form');
-
     const inputField = document.createElement('input');
     inputField.type = 'text';
     inputField.id = 'score-input';
     inputField.placeholder = 'Eg: TY - 3';
-
     const submitBtn = document.createElement('input');
     submitBtn.type = 'submit';
     submitBtn.value = 'Submit';
-
     form.appendChild(inputField);
     form.appendChild(submitBtn);
-
     const parentElement = submitQuizResults.parentNode;
     parentElement.insertBefore(form, submitQuizResults);
-
     form.addEventListener('submit', saveScore);
-
     if (!restartButton) {
         restartButton = document.createElement('button');
         restartButton.textContent = 'Restart Quiz';
@@ -225,7 +234,6 @@ function showScore () {
         parentElement.appendChild(restartButton);
     }
     restartButton.style.display = "block"; 
-
     if (!scoreboardButton) {
         scoreboardButton = document.createElement('button');
         scoreboardButton.textContent = 'See Scoreboard';
@@ -246,19 +254,6 @@ function nextButtonAction () {
 
 submitQuizResults.addEventListener("click", submitScore);
 
-// function recordScore(event) {
-//     event.preventDefault ();
-//     const form = document.createElement('form');
-    
-//     const inputValue = document.getElementById('score-input').value;
-//     if (inputValue) {
-//         localStorage.setItem('score', inputValue);
-//         alert('Score saved!');
-//     } else {
-//         alert('Please enter your initials and score!');
-//     }
-// }
-
 function saveScore (event){
        event.preventDefault();
        const inputValue = document.getElementById('score-input').value;
@@ -271,7 +266,7 @@ function saveScore (event){
            alert('Please enter your initials and score!');
        }
 }
-    
+
 function displayScoreboard() {
     resetState();
     const scores = JSON.parse(localStorage.getItem('scores')) || [];
@@ -288,6 +283,5 @@ function displayScoreboard() {
     paragraphEl.innerHTML = ""; 
     paragraphEl.appendChild(scoreList);
 }
-
 
 hideBeforeStart();
