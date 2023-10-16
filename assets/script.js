@@ -1,14 +1,3 @@
-// Use this section for writing out the pseudocode for this assignment:
-// - Need to create functionality upon clicking one of the buttons
-// - Need to make sure to display a message if correct and another message if incorrect
-// - Need to create a display pay with instructions before starting the quiz
-// - Need to create logic to display the time left in the navbar
-// - Need to create logic where wrong answer substracts 10 seconds from time left 
-// - Need to create logic with text input for initials and save the score displayed + initials as input 
-// - Create a localStorage solution to save prior answers to a scoreboard
-// - Add "scoreboard" as a button with a link in the navbar
-// Suggestions: use "let" and "const" instead of "var"
-
 const questions = [
     {
         question: "What does Javascript do?",
@@ -23,30 +12,30 @@ const questions = [
     {
         question: "What does API stand for?",
         answers: [
-            {text: "Application programming interlace", correct: false},
-            {text: "Application programming interface", correct: true},
-            {text: "Artifact programmer interface", correct: false},
-            {text: "Artifical progamming intelligence", correct: false},
+            {text: "A: Application programming interlace", correct: false},
+            {text: "B: Application programming interface", correct: true},
+            {text: "C: Artifact programmer interface", correct: false},
+            {text: "D: Artifiical progamming intelligence", correct: false},
 
         ]  
     },
     {
         question: "What is the value of a Javascript library such as Jquery?",
         answers: [
-            {text: "There is no value", correct: false},
-            {text: "Libraries shouldn't be used because that's cheating!", correct: false},
-            {text: "Helps to provide templated code for easy app building", correct: true},
-            {text: "None of the above", correct: false},
+            {text: "A: There is no value", correct: false},
+            {text: "B: Libraries shouldn't be used because that's cheating!", correct: false},
+            {text: "C: Helps to provide templated code for easy app building", correct: true},
+            {text: "D: None of the above", correct: false},
 
         ]  
     },
     {
         question: "What is full stack development?",
         answers: [
-            {text: "Combining two half-stacks", correct: false},
-            {text: "Another term for a graphic designer", correct: false},
-            {text: "None of these answers are correct", correct: false},
-            {text: "Developing using front-end and back-end tools to power an app.", correct: true},
+            {text: "A: Combining two half-stacks", correct: false},
+            {text: "B: Another term for a graphic designer", correct: false},
+            {text: "C: None of these answers are correct", correct: false},
+            {text: "D: Developing using front-end and back-end tools to power an app.", correct: true},
 
         ]  
     }
@@ -56,28 +45,26 @@ const questionEl = document.getElementById ("question");
 const answerButtons = document.getElementById ("answer-buttons");
 const nextButton = document.getElementById("next-btn");
 const startButton = document.getElementById ("start-btn");
-startButton.addEventListener('click',startQuiz);
 const answerSection = document.querySelector(".answer-section");
 const paragraphEl = document.querySelector("main section p");
 const submitQuizResults = document.getElementById ("submit-score");
-
-nextButton.addEventListener('click', nextButtonAction);
-
-
+const timerElement = document.getElementById('timer');
 let currentQuestionIndex = 0;
 let score = 0;
 let restartButton;
 let scoreboardButton;
 let timerInterval;
 let remainingTime = 45;
+nextButton.addEventListener('click', nextButtonAction);
+startButton.addEventListener('click',startQuiz);
 
 window.onload = hideBeforeStart();
+
 function hideBeforeStart() {
         nextButton.style.display = "none";
         answerButtons.style.display = "none";
-        answerButtons.classList.add ("hide");
         submitQuizResults.style.display = "none";
-
+        answerSection.style.display = "none";
     }
 
 function startCountdownTimer() {
@@ -91,15 +78,15 @@ function startCountdownTimer() {
         updateTimerDisplay();
         
         if (remainingTime <= 0) {
+            timerElement.textContent =  "Quiz ended";
             clearInterval(timerInterval);  
             showScore();  
-            timerElement.textContent = "Quiz ended!";
         }
     }, 1000); 
 }
 
 function updateTimerDisplay() {
-    const timerElement = document.getElementById('timer');
+    // const timerElement = document.getElementById('timer');
     timerElement.textContent = remainingTime + " seconds left";
 }
 
@@ -111,7 +98,7 @@ function startQuiz (){
     startButton.classList.add("hide");
     startButton.style.display = "none";
     answerButtons.style.display = "block";
-    // answerSection.style.display = "block";
+    answerSection.style.display = "block";
     answerSection.innerText = "";
     answerButtons.addEventListener("click", function() {
         nextButton.classList.add("display");
