@@ -3,7 +3,22 @@
     
 }
 
-nav, footer {
+nav {
+border-bottom: 3px black solid;
+}
+
+footer {
+border-top: 3px black solid;
+margin-top: 25%;
+}
+
+@media screen and (max-width: 768px){
+    footer {
+        margin-top: 95%;
+    }
+}
+
+body {
     background: linear-gradient(to right, #02aab0, #00cdac);
     font-size: 20px;
 }
@@ -15,17 +30,31 @@ nav ul {
 }
 
 
-main{
-    margin-top: 10%;
-    margin-bottom: 10%;
-    margin-left: 20%;
-    margin-right: 20%;
+@media screen and (max-width: 768px) {
+nav ul {
+    font-size: 14px;
+    justify-content: space-between;
+    margin-right: 3%;
+    margin-left: -5%;
+}    
 }
 
 
-/* .answer-section{
-    display: none;
-} */
+main{
+    margin: 15%;
+    border: 5px black solid;
+    background: white;
+    padding: 2%;;
+}
+
+@media screen and (max-width: 768px){
+    main {
+        margin-top: 30%;
+        margin-left: 0;
+        margin-right: 0;
+        margin-bottom: 10%;
+    }
+}
 
 main h1 {
     font-size: 30px;
@@ -35,9 +64,7 @@ main section {
     font-size: 16px;
 }
 
-/* #answer-buttons {
-    visibility: hidden;
-} */
+
 
 button {
     background: linear-gradient(to right, #eecda3, #ef629f);
@@ -46,14 +73,6 @@ button {
     margin-top: 5px;
     font-size: 18px;
 }
-/* 
-#hide-answer-buttons {
-display: none;
-}
-
-#hide-next-btn {
-    display: none;
-} */
 
 #next-btn, #start-btn, #submit-score {
     font-size: 3rem;

@@ -86,7 +86,6 @@ function startCountdownTimer() {
 }
 
 function updateTimerDisplay() {
-    // const timerElement = document.getElementById('timer');
     timerElement.textContent = remainingTime + " seconds left";
 }
 
