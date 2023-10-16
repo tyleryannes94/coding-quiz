@@ -22,13 +22,6 @@ main{
     margin-right: 20%;
 }
 
-.hide {
-    display: none;
-}
-
-.display {
-    display: inline;
-}
 
 /* .answer-section{
     display: none;
@@ -64,6 +57,7 @@ display: none;
 
 #next-btn, #start-btn, #submit-score {
     font-size: 3rem;
+    display: block;
 }
 
 .correct-selection {

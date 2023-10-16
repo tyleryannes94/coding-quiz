@@ -84,7 +84,36 @@ function startQuiz (){
     showQuestion ();
     console.log ("started quiz");
     startButton.classList.add("hide");
+    startButton.style.display = "none";
+    answerButtons.style.display = "block";
+    // answerSection.style.display = "block";
+    answerSection.innerText = "";
+    answerButtons.addEventListener("click", function() {
+        nextButton.classList.add("display");
+    });
 
+    // const formEl = document.querySelector('form');
+    // if(formEl) {
+    //     formEl.remove();
+    // }
+    // if(restartButton) {
+    //     restartButton.style.display = "none";
+    // }
+
+    // if(scoreboardButton) {
+    //     scoreboardButton.style.display = "none";
+    // }
+    // if (paragraphEl){
+    //     paragraphEl.innerHTML ="";
+    // }
+}
+
+function restartQuiz (){
+    currentQuestionIndex = 0;
+    score = 0;
+    showQuestion ();
+    console.log ("restarted quiz");
+    startButton.style.display = "none";
     answerButtons.style.display = "block";
     answerSection.style.display = "block";
     answerSection.innerText = "";
@@ -103,11 +132,15 @@ function startQuiz (){
     if(scoreboardButton) {
         scoreboardButton.style.display = "none";
     }
-
+    if (paragraphEl){
+        paragraphEl.innerHTML = "";
+    }
 }
 
 function showQuestion (){
     resetState();
+    nextButton.style.display = "none";
+
     let currentQuestion = questions [currentQuestionIndex];
     let questionNum = currentQuestionIndex + 1;
     questionEl.innerHTML = questionNum + ". " + currentQuestion.question;
@@ -130,9 +163,10 @@ function answerChosen (event) {
     }
 
 function resetState(){
-    nextButton.style.display = "none";
+    nextButton.style.display = "block";
     while (answerButtons.firstChild){
         answerButtons.removeChild(answerButtons.firstChild);
+    answerSection.innerHTML = "";
     }};
 
 
@@ -161,6 +195,7 @@ function showScore () {
     resetState();
     questionEl.innerHTML = `You scored ${score} out of ${questions.length}.`;
     answerSection.style.display = "none";
+    nextButton.style.display = "none";
     paragraphEl.innerHTML = "All done, thanks for playing! Add your initials and your score to be added to the playerboard!";
 
     // Create and show the form here
@@ -186,7 +221,7 @@ function showScore () {
     if (!restartButton) {
         restartButton = document.createElement('button');
         restartButton.textContent = 'Restart Quiz';
-        restartButton.addEventListener('click', startQuiz);
+        restartButton.addEventListener('click', restartQuiz);
         parentElement.appendChild(restartButton);
     }
     restartButton.style.display = "block"; 
@@ -211,18 +246,18 @@ function nextButtonAction () {
 
 submitQuizResults.addEventListener("click", submitScore);
 
-function recordScore(event) {
-    event.preventDefault ();
-    const form = document.createElement('form');
+// function recordScore(event) {
+//     event.preventDefault ();
+//     const form = document.createElement('form');
     
-    const inputValue = document.getElementById('score-input').value;
-    if (inputValue) {
-        localStorage.setItem('score', inputValue);
-        alert('Score saved!');
-    } else {
-        alert('Please enter your initials and score!');
-    }
-}
+//     const inputValue = document.getElementById('score-input').value;
+//     if (inputValue) {
+//         localStorage.setItem('score', inputValue);
+//         alert('Score saved!');
+//     } else {
+//         alert('Please enter your initials and score!');
+//     }
+// }
 
 function saveScore (event){
        event.preventDefault();
@@ -241,6 +276,7 @@ function displayScoreboard() {
     resetState();
     const scores = JSON.parse(localStorage.getItem('scores')) || [];
     questionEl.innerHTML = 'Scoreboard';
+    nextButton.style.display = "none";
 
     const scoreList = document.createElement('ul');
     scores.forEach(score => {
@@ -249,7 +285,7 @@ function displayScoreboard() {
         scoreList.appendChild(li);
     });
 
-    paragraphEl.innerHTML = ""; // Clear any previous content
+    paragraphEl.innerHTML = ""; 
     paragraphEl.appendChild(scoreList);
 }
 
