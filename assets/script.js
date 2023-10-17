@@ -3,7 +3,7 @@ const questions = [
     {
         question: "What does Javascript do?",
         answers: [
-            {text: "A: Users interact with app", correct: false},
+            {text: "A: Lets users interact with the app", correct: false},
             {text: "B: Edit html elements", correct: false},
             {text: "C: Edit CSS styling elements", correct: false},
             {text: "D: All of the above", correct: true},
