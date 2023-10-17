@@ -1,3 +1,4 @@
+// creates the questions and answers for the quiz with a check for the correct answer
 const questions = [
     {
         question: "What does Javascript do?",
@@ -40,7 +41,7 @@ const questions = [
         ]  
     }
 ]
-
+//create the necessary variables used in my functions 
 const questionEl = document.getElementById ("question");
 const answerButtons = document.getElementById ("answer-buttons");
 const nextButton = document.getElementById("next-btn");
@@ -58,8 +59,10 @@ let remainingTime = 45;
 nextButton.addEventListener('click', nextButtonAction);
 startButton.addEventListener('click',startQuiz);
 
+// runs the hideBeforeStart function when the webpage intially loads
 window.onload = hideBeforeStart();
 
+//function that hides the quiz buttons used on later pages of the quiz so only the start button appears
 function hideBeforeStart() {
         nextButton.style.display = "none";
         answerButtons.style.display = "none";
@@ -67,6 +70,7 @@ function hideBeforeStart() {
         answerSection.style.display = "none";
     }
 
+// starts the countdown timer and checks the time left to show the end score if the time has hit 0 seconds
 function startCountdownTimer() {
     if (timerInterval) {
         clearInterval(timerInterval);
@@ -85,10 +89,12 @@ function startCountdownTimer() {
     }, 1000); 
 }
 
+// creates the timer display message
 function updateTimerDisplay() {
     timerElement.textContent = remainingTime + " seconds left";
 }
 
+// upon clicking the start button, the quiz begins by displaying the first Q&As and starts the timer
 function startQuiz (){
     currentQuestionIndex = 0;
     score = 0;
@@ -105,6 +111,7 @@ function startQuiz (){
     startCountdownTimer();
 }
 
+// separate function used specifically for when restarting a quiz
 function restartQuiz (){
     currentQuestionIndex = 0;
     score = 0;
@@ -138,6 +145,7 @@ function restartQuiz (){
 
 }
 
+//displays questions and answers
 function showQuestion (){
     resetState();
     nextButton.style.display = "none";
@@ -157,12 +165,14 @@ function showQuestion (){
     });
 }
 
+//upon selecting an answer, display the next button
 function answerChosen (event) {
     selectAnswer(event);
     nextButton.style.display = "block";
     document.querySelector (selectAnswer);
     }
 
+//after clicking the next button, reset the Q&A
 function resetState(){
     nextButton.style.display = "block";
     while (answerButtons.firstChild){
@@ -170,6 +180,7 @@ function resetState(){
     answerSection.innerHTML = "";
     }};
 
+//after selecting an answer, check the boolean value stored in the answer array and display correct/wrong answer response    
 function selectAnswer (chosenAnswer){
     const selectBtn = chosenAnswer.target;
     const correctAnswer = selectBtn.dataset.correct === "true";
@@ -193,6 +204,7 @@ function selectAnswer (chosenAnswer){
     nextButton.style.display = "block";
 };
 
+// after quiz ends, show score and create submit score and show scoreboard buttons
 function showScore () {
     resetState();
     questionEl.innerHTML = `You scored ${score} out of ${questions.length}.`;
@@ -229,6 +241,7 @@ function showScore () {
     scoreboardButton.style.display = "block";
 }
 
+//after selecting next, increase the answer array index to display the next question
 function nextButtonAction () {
     currentQuestionIndex++;
     if (currentQuestionIndex < questions.length){
@@ -238,6 +251,7 @@ function nextButtonAction () {
     }
 }
 
+//after clicking submit, run the submitScore function
 submitQuizResults.addEventListener("click", submitScore);
 
 function saveScore (event){
@@ -253,6 +267,7 @@ function saveScore (event){
        }
 }
 
+//creates the scoreboard and saves it to the browser localstorage 
 function displayScoreboard() {
     resetState();
     const scores = JSON.parse(localStorage.getItem('scores')) || [];
@@ -270,4 +285,5 @@ function displayScoreboard() {
     paragraphEl.appendChild(scoreList);
 }
 
+//only displays the start button upon
 hideBeforeStart();
