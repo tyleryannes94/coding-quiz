@@ -220,6 +220,12 @@ function showScore () {
     const submitBtn = document.createElement('input');
     submitBtn.type = 'submit';
     submitBtn.value = 'Submit';
+    submitBtn.type = 'submit';
+    submitBtn.style.background = 'linear-gradient(to right, #eecda3, #ef629f)';
+    submitBtn.style.boxShadow = 'rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px';
+    submitBtn.style.display = 'flex';
+    submitBtn.style.marginTop = '5px';
+    submitBtn.style.fontSize = '18px';
     form.appendChild(inputField);
     form.appendChild(submitBtn);
     const parentElement = submitQuizResults.parentNode;
